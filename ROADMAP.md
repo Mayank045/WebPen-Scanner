@@ -1,11 +1,11 @@
 ## WebVulnScan Roadmap
 
-### Phase 1 — Foundation    <-- {CURRENTLY HERE}
+### Phase 1 — Foundation    
 - [ ] Project structure
 - [ ] CLI
 - [ ] Configuration system
 
-### Phase 2 — Recon
+### Phase 2 — Recon        <-- {CURRENTLY HERE}
 - [ ] HTTP reconnaissance
 - [ ] DNS enumeration
 - [ ] Technology detection
