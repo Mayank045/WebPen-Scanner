@@ -1,142 +1,591 @@
-# 🌐 WebVulnScan
+# 🛡️ Web-Pen Scanner
 
-> **Modular Web Security Assessment & Vulnerability Scanning Framework**
+> **A web-based penetration testing and vulnerability assessment platform for authorized security testing.**
 
-🚧 **Status: Under Development**
+Web-Pen Scanner is a cybersecurity project designed to provide a browser-based interface for performing structured web application security assessments.
 
-WebVulnScan is a cybersecurity project focused on automating the process of **web reconnaissance, attack-surface discovery, vulnerability detection, risk analysis, and security reporting**.
+Instead of requiring the user to interact with multiple security tools through the terminal, Web-Pen Scanner aims to provide a centralized dashboard for configuring scans, monitoring their progress, analyzing findings, and generating security reports.
 
-The goal is to build a modular security assessment framework that combines custom security checks with integrations for commonly used security tools.
-
----
-
-## 🎯 Project Goals
-
-* Automate web application reconnaissance
-* Discover URLs, endpoints, parameters, and forms
-* Identify common security misconfigurations
-* Perform modular vulnerability checks
-* Integrate existing security tools where appropriate
-* Classify findings by severity and confidence
-* Generate structured security assessment reports
-* Provide a clean and extensible architecture for future modules
+The project is being developed incrementally as both a **cybersecurity learning project** and a **portfolio project**.
 
 ---
 
-## 🏗️ Planned Architecture
+## 🎯 Project Vision
+
+The long-term vision of Web-Pen Scanner is to provide a modular security assessment platform capable of:
+
+* 🔎 Reconnaissance
+* 🕷️ Web crawling
+* 🌐 Endpoint and parameter discovery
+* 🔐 Security configuration analysis
+* 🧪 Vulnerability detection
+* 🧠 Risk and severity analysis
+* 📊 Security scoring
+* 📄 Automated reporting
+* 🔧 Integration with established security tools
+
+The application will provide a web dashboard while the actual scanning and analysis will be performed by the backend.
 
 ```text
-                    WebVulnScan
+                    Web Browser
                          │
-          ┌──────────────┼──────────────┐
-          ▼              ▼              ▼
-       Recon          Crawler        Scanner
-          │              │              │
-          └──────────────┼──────────────┘
+                         │ HTTP / REST API
                          ▼
-                   Risk Engine
+                ┌──────────────────┐
+                │   Flask Backend  │
+                └────────┬─────────┘
                          │
                          ▼
-                    Reporting
+                   Scan Manager
+                         │
+             ┌───────────┼───────────┐
+             ▼           ▼           ▼
+           Recon       Crawler     Security
+                                  Checks
+             │           │           │
+             └───────────┼───────────┘
+                         ▼
+                    Risk Engine
+                         │
+                         ▼
+                      SQLite
+                         │
+                         ▼
+                  Dashboard / Reports
 ```
 
 ---
 
-## 🔍 Planned Features
+## ⚠️ Legal & Ethical Use
 
-### Reconnaissance
+Web-Pen Scanner is intended **only for authorized security testing**.
 
-* [ ] HTTP reconnaissance
-* [ ] DNS information
-* [ ] Port discovery
-* [ ] Technology detection
-* [ ] Subdomain discovery
+Use it against:
 
-### Web Crawling
+* Applications you own
+* Local test environments
+* CTF/lab environments
+* Applications for which you have explicit permission to perform security testing
 
-* [ ] URL discovery
-* [ ] Parameter discovery
-* [ ] Form detection
-* [ ] JavaScript discovery
+Do **not** use this project to scan systems without authorization.
 
-### Security Checks
-
-* [ ] Security header analysis
-* [ ] Cookie security analysis
-* [ ] CORS configuration checks
-* [ ] TLS/HTTPS checks
-* [ ] Information disclosure detection
-* [ ] Sensitive resource exposure checks
-
-### Tool Integrations
-
-* [ ] Nmap
-* [ ] Nuclei
-* [ ] FFUF
-
-### Reporting
-
-* [ ] Terminal output
-* [ ] JSON reports
-* [ ] HTML reports
-* [ ] Severity classification
-* [ ] Risk scoring
-* [ ] Remediation recommendations
+The project is designed around defensive security assessment and should avoid destructive exploitation, credential theft, persistence, evasion, or unauthorized data access.
 
 ---
 
-## 🛠️ Tech Stack
+# 🧰 Technology Stack
 
-**To be finalized during development.**
+## Frontend
 
-The project is expected to use a combination of:
+| Technology | Purpose                                    |
+| ---------- | ------------------------------------------ |
+| HTML       | Dashboard structure                        |
+| CSS        | Styling and responsive UI                  |
+| JavaScript | Frontend interaction and API communication |
 
-* Programming language: TBD
-* HTTP/networking libraries
-* Web crawling/parsing libraries
-* SQLite or another lightweight database
-* CLI framework
-* Security tool integrations
-* HTML/JSON reporting
+The frontend intentionally uses **vanilla HTML, CSS, and JavaScript** instead of a frontend framework.
+
+This keeps the project approachable while providing a strong understanding of how web applications communicate with backend services.
+
+## Backend
+
+| Technology | Purpose                        |
+| ---------- | ------------------------------ |
+| Python     | Core programming language      |
+| Flask      | Web server and REST API        |
+| SQLite     | Persistent scan/result storage |
+
+## Planned Security Tool Integrations
+
+The project may eventually integrate tools such as:
+
+* Nmap
+* Nuclei
+* FFUF
+
+These will be treated as modular integrations rather than making Web-Pen Scanner simply a wrapper around external tools.
 
 ---
 
-## 📂 Project Structure
+# 🏗️ Current Architecture
 
-The project structure will evolve as development progresses.
+The project is currently being developed around a modular Flask architecture.
 
 ```text
-WebVulnScan/
+Web-Pen-Scanner/
+│
+├── app/
+│   ├── routes/
+│   ├── scanner/
+│   ├── services/
+│   ├── static/
+│   │   ├── css/
+│   │   └── js/
+│   └── templates/
+│
+├── data/
+│
+├── reports/
+│
+├── tests/
+│
+├── configs/
+│
+├── docs/
+│
+├── updates.txt
+├── requirements.txt
+├── run.py
 ├── README.md
-├── CHANGELOG.md
-├── ROADMAP.md
-├── .gitignore
-├── LICENSE
-└── ...
+└── .gitignore
+```
+
+The exact structure will evolve as new modules are introduced.
+
+---
+
+# 🔄 How Web-Pen Scanner Works
+
+A typical scan will eventually follow this workflow:
+
+```text
+1. User enters authorized target
+              │
+              ▼
+2. Dashboard sends HTTP request
+              │
+              ▼
+3. Flask validates the request
+              │
+              ▼
+4. Scan is created
+              │
+              ▼
+5. Scanner performs reconnaissance
+              │
+              ▼
+6. Web application is crawled
+              │
+              ▼
+7. Security checks are performed
+              │
+              ▼
+8. Findings are normalized
+              │
+              ▼
+9. Risk engine evaluates findings
+              │
+              ▼
+10. Results stored in database
+              │
+              ▼
+11. Dashboard displays results
+              │
+              ▼
+12. Security report is generated
 ```
 
 ---
 
-## 🚀 Development Roadmap
+# 🔍 Planned Scanning Modules
 
-The project will be developed incrementally, starting with a minimal scanner and gradually expanding into a complete web security assessment framework.
+## 1. Reconnaissance
 
-See **[ROADMAP.md](ROADMAP.md)** for the current development plan.
+The reconnaissance module will gather information about the target such as:
 
----
-
-## ⚠️ Disclaimer
-
-WebVulnScan is developed for **educational purposes and authorized security testing**.
-
-Only scan systems, applications, and infrastructure that you own or have explicit permission to test.
-
-The developers are not responsible for misuse of this project.
+* DNS information
+* IP resolution
+* HTTP/HTTPS information
+* Response headers
+* Basic technology information
+* Optional port information
 
 ---
 
-## 📌 Project Status
+## 2. Web Crawler
 
-------------🚧 Under Development 🚧------------
+The crawler will discover the application's attack surface by identifying:
 
-More features, documentation, screenshots, examples, and technical details will be added as the project progresses.
+* Web pages
+* Internal links
+* Forms
+* Input fields
+* Query parameters
+* JavaScript files
+* Redirects
+
+Example:
+
+```text
+Target
+ │
+ ├── /
+ ├── /login
+ ├── /products
+ │     └── ?id=10
+ ├── /contact
+ └── /api
+```
+
+---
+
+## 3. Security Checks
+
+The scanner will gradually introduce modular security checks such as:
+
+* Security header analysis
+* Cookie security attributes
+* HTTPS configuration
+* TLS observations
+* CORS configuration
+* Information disclosure
+* Exposed resources
+* Potentially sensitive configuration files
+
+Each finding should contain useful context rather than simply reporting that a check failed.
+
+---
+
+# 🧠 Risk Analysis
+
+Findings will eventually be normalized into a common format.
+
+Example:
+
+```text
+Finding:
+Missing Content-Security-Policy
+
+Severity:
+Medium
+
+Confidence:
+High
+
+Category:
+Security Configuration
+
+Evidence:
+The response did not contain a Content-Security-Policy header.
+
+Recommendation:
+Consider implementing an appropriate Content Security Policy.
+```
+
+The project will eventually include a risk engine capable of categorizing findings and producing an overall security score.
+
+---
+
+# 🖥️ Web Dashboard
+
+The dashboard is intended to become the primary interface for Web-Pen Scanner.
+
+Planned sections include:
+
+### Dashboard
+
+* Scan statistics
+* Recent scans
+* Security score
+* Finding severity overview
+
+### New Scan
+
+* Target URL
+* Scan configuration
+* Available modules
+* Start scan button
+
+### Scan Progress
+
+* Current scan stage
+* Progress percentage
+* Completed tasks
+* Current operation
+
+### Scan Results
+
+* Findings
+* Severity
+* Confidence
+* Evidence
+* Recommendations
+* Affected endpoints
+
+### Reports
+
+* HTML reports
+* JSON reports
+* Future report formats
+
+---
+
+# ⚙️ Background Scanning
+
+Long-running scans should not block the normal Flask HTTP request.
+
+The intended architecture is:
+
+```text
+Browser
+   │
+   │ POST /api/scans
+   ▼
+Flask
+   │
+   ├── Create scan
+   │
+   └── Start scan job
+            │
+            ▼
+         Scanner
+            │
+            ▼
+         Database
+```
+
+The API can immediately return a scan identifier while the scanner continues processing.
+
+The frontend can then retrieve the scan's status and results.
+
+More advanced real-time communication may be introduced later if required.
+
+---
+
+# 🛣️ Development Roadmap
+
+Web-Pen Scanner will be developed incrementally.
+
+### Phase 0 — Foundation
+
+* Project structure
+* Flask application
+* Basic frontend
+* Basic API
+* SQLite setup
+* Configuration
+* Logging
+* Development changelog
+
+### Phase 1 — First Working Scan
+
+Build the first complete flow:
+
+```text
+Browser
+   ↓
+Target URL
+   ↓
+Flask API
+   ↓
+HTTP Request
+   ↓
+Response Analysis
+   ↓
+Dashboard Result
+```
+
+### Phase 2 — Reconnaissance
+
+Add:
+
+* DNS
+* IP resolution
+* HTTP headers
+* Basic technology detection
+
+### Phase 3 — Web Crawler
+
+Add:
+
+* URL discovery
+* Forms
+* Parameters
+* JavaScript discovery
+
+### Phase 4 — Security Checks
+
+Add modular checks for:
+
+* Headers
+* Cookies
+* HTTPS
+* TLS
+* CORS
+* Information disclosure
+* Safe exposure checks
+
+### Phase 5 — Background Scanning
+
+Introduce:
+
+* Scan jobs
+* Scan states
+* Progress tracking
+* Cancellation/error handling
+
+### Phase 6 — Database Expansion
+
+Store:
+
+* Targets
+* Scans
+* Endpoints
+* Findings
+* Scan status
+* Timestamps
+
+### Phase 7 — Tool Integrations
+
+Introduce optional integrations with:
+
+* Nmap
+* Nuclei
+* FFUF
+
+### Phase 8 — Risk Engine
+
+Add:
+
+* Severity
+* Confidence
+* Categories
+* Recommendations
+* Security score
+
+### Phase 9 — Reporting
+
+Generate:
+
+* HTML reports
+* JSON reports
+* Additional formats where useful
+
+### Phase 10 — Final Polish
+
+Improve:
+
+* Dashboard UI
+* Testing
+* Error handling
+* Documentation
+* Deployment
+* GitHub presentation
+
+---
+
+# 📈 Project Development Log
+
+A lightweight development log is maintained in:
+
+```text
+updates.txt
+```
+
+Each meaningful implementation change is recorded as a concise one-line entry.
+
+Example:
+
+```text
+[2026-09-06] - Initialized the Flask backend, frontend dashboard, SQLite database, and project structure.
+```
+
+This file is maintained throughout development to provide a simple history of the project's progress.
+
+---
+
+# 🧪 Testing
+
+Testing will be introduced progressively as functionality is developed.
+
+The project should eventually include tests for:
+
+* URL validation
+* HTTP handling
+* Scanner modules
+* API endpoints
+* Database operations
+* Vulnerability checks
+* Risk classification
+
+Testing should use intentionally vulnerable or controlled environments rather than unauthorized public systems.
+
+---
+
+# 🚀 Running the Project
+
+Create and activate a Python virtual environment:
+
+```bash
+python -m venv .venv
+```
+
+### Windows
+
+```bash
+.venv\Scripts\activate
+```
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Start the Flask application:
+
+```bash
+python run.py
+```
+
+Then open the local address displayed by Flask in your browser.
+
+---
+
+# 📌 Current Status
+
+**Project Stage:** Foundation / Early Development
+
+Currently the project is establishing:
+
+* Flask backend
+* Web frontend
+* API structure
+* SQLite database
+* Scanner architecture
+* Development workflow
+
+The actual security scanning capabilities will be implemented incrementally in later phases.
+
+---
+
+# 🎓 Project Goals
+
+Web-Pen Scanner is being developed to strengthen practical understanding of:
+
+* Web application architecture
+* HTTP communication
+* REST APIs
+* Flask
+* HTML/CSS/JavaScript
+* Python networking
+* Web crawling
+* Vulnerability assessment
+* Security misconfiguration detection
+* Databases
+* Background jobs
+* Risk analysis
+* Security reporting
+* Secure software development
+
+The project is intended to demonstrate both **software development skills and cybersecurity knowledge**.
+
+---
+
+## 👨‍💻 Project
+
+**Web-Pen Scanner**
+
+A learning-focused web penetration testing and vulnerability assessment platform.
+
+> Build it. Understand it. Secure it.
