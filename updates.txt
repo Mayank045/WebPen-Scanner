@@ -1,3 +1,0 @@
-[2026-09-06] - Hardened target URL validation and database directory initialization.
-[2026-09-06] - Implemented basic reconnaissance for hostname, public IP, redirects, HTTP status, and response headers.
-[2026-09-07] - Cleaned reconnaissance result handling and added focused mocked recon tests.
