@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Web-Pen Scanner security assessment dashboard" />
+    <title>Web-Pen Scanner | Security Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Main navigation">
+        <a class="brand" href="/" aria-label="Web-Pen Scanner dashboard">
+          <span class="brand-mark">◈</span>
+          <span><strong>WEB-PEN</strong><small>SCANNER</small></span>
+        </a>
+        <nav class="nav-list">
+          <a class="nav-link active" href="#overview"><span>⌂</span> Dashboard</a>
+          <a class="nav-link" href="#scans"><span>◉</span> Scans</a>
+          <a class="nav-link" href="#findings"><span>△</span> Reports</a>
+          <a class="nav-link" href="#settings"><span>⚙</span> Settings</a>
+        </nav>
+        <div class="sidebar-status"><span class="status-dot"></span><span>Scanner online</span><small>Safe mode active</small></div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Security operations</p>
+            <h1>Dashboard</h1>
+          </div>
+          <div class="topbar-meta"><span class="status-dot"></span><span>Operational</span><span class="version">v1.0</span></div>
+        </header>
+
+        <section class="hero-card" id="overview">
+          <div>
+            <p class="eyebrow accent-text">Authorized assessment</p>
+            <h2>Start a new security scan</h2>
+            <p class="hero-copy">Collect reconnaissance, crawl metadata, and passive security observations from an authorized target.</p>
+          </div>
+          <form id="scan-form" class="scan-form">
+            <label for="target-url">Target URL</label>
+            <div class="scan-input-row">
+              <input id="target-url" type="url" placeholder="https://example.com" autocomplete="url" required />
+              <button id="scan-submit" type="submit">Start scan <span aria-hidden="true">→</span></button>
+            </div>
+            <p class="form-note">Only scan systems you own or have explicit authorization to test.</p>
+          </form>
+          <p id="scan-status" class="status-text" role="status">Ready to scan.</p>
+        </section>
+
+        <section class="stats-grid" aria-label="Dashboard statistics">
+          <article class="stat-card"><div class="stat-icon blue">◎</div><div><span class="stat-label">Total scans</span><strong id="stat-scans">0</strong><small id="stat-scans-note">No scans yet</small></div></article>
+          <article class="stat-card"><div class="stat-icon purple">▦</div><div><span class="stat-label">Pages crawled</span><strong id="stat-pages">0</strong><small id="stat-pages-note">No scans yet</small></div></article>
+          <article class="stat-card"><div class="stat-icon amber">△</div><div><span class="stat-label">Findings</span><strong id="stat-findings">0</strong><small id="stat-findings-note">No findings yet</small></div></article>
+          <article class="stat-card risk-stat"><div class="stat-icon red">◉</div><div><span class="stat-label">Latest risk score</span><strong id="stat-risk">0<span>/100</span></strong><small id="stat-risk-note">No scans yet</small></div></article>
+        </section>
+
+        <section class="content-grid">
+          <div class="panel scans-panel" id="scans">
+            <div class="panel-heading"><div><p class="eyebrow">Activity</p><h2>Recent scans</h2></div><span id="scan-count" class="count-badge">0</span></div>
+            <div class="toolbar"><label class="search-box"><span aria-hidden="true">⌕</span><input id="scan-search" type="search" placeholder="Search targets..." aria-label="Search scans" /></label><select id="status-filter" aria-label="Filter scans by status"><option value="all">All statuses</option><option value="completed">Completed</option><option value="running">Running</option><option value="queued">Queued</option><option value="failed">Failed</option></select></div>
+            <div class="table-wrap">
+              <table><caption class="sr-only">Recent security scans</caption><thead><tr><th scope="col">Target</th><th scope="col">Status</th><th scope="col">Risk</th><th scope="col">Findings</th><th scope="col">Date</th></tr></thead><tbody id="scan-table-body"></tbody></table>
+            </div>
+            <div id="scan-empty" class="empty-state hidden"><div class="empty-icon">◌</div><h3>No scans yet</h3><p>Start your first authorized scan to see results here.</p><button class="secondary-button" type="button" data-action="focus-scan">Start a scan</button></div>
+          </div>
+
+          <aside class="panel severity-panel" id="findings">
+            <div class="panel-heading"><div><p class="eyebrow">Risk overview</p><h2>Severity breakdown</h2></div></div>
+            <div id="severity-list" class="severity-list"></div>
+            <div class="risk-summary"><span>Latest score</span><strong id="risk-summary-score">0 <small>/ 100</small></strong><span id="risk-summary-label" class="risk-label">No data</span></div>
+          </aside>
+        </section>
+
+        <section id="details-section" class="panel details-panel hidden" aria-live="polite">
+          <div class="details-heading"><div><button id="back-to-scans" class="back-button" type="button">← Back to scans</button><p class="eyebrow">Scan details</p><h2 id="details-title">Selected scan</h2><p id="details-subtitle" class="muted"></p></div><div id="details-risk" class="risk-display"></div></div>
+          <div class="details-grid">
+            <article class="detail-section"><div class="section-title"><span>01</span><h3>Target information</h3></div><div id="target-metrics" class="metric-grid"></div></article>
+            <article class="detail-section"><div class="section-title"><span>02</span><h3>Reconnaissance</h3></div><div id="recon-metrics" class="metric-grid"></div><div class="subheading">Response headers</div><div id="headers-list" class="headers-list"></div></article>
+            <article class="detail-section"><div class="section-title"><span>03</span><h3>Crawler results</h3></div><div id="crawl-metrics" class="metric-grid"></div><div id="pages-list" class="pages-list"></div></article>
+          </div>
+          <article class="detail-section findings-section"><div class="section-title"><span>04</span><h3>Security findings</h3><div id="finding-filters" class="filter-group"><button class="filter-button active" data-severity="all" type="button">All</button><button class="filter-button" data-severity="critical" type="button">Critical</button><button class="filter-button" data-severity="high" type="button">High</button><button class="filter-button" data-severity="medium" type="button">Medium</button><button class="filter-button" data-severity="low" type="button">Low</button><button class="filter-button" data-severity="info" type="button">Info</button></div></div><div id="details-findings" class="finding-list"></div></article>
+        </section>
+
+        <footer id="settings"><span>Web-Pen Scanner</span><span>Defensive testing toolkit · Use only with authorization</span></footer>
+      </main>
+    </div>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  </body>
+</html>
