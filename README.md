@@ -129,21 +129,14 @@ http://127.0.0.1:5000
 ---
 
 ## ⚡ Quick Demo
+```md
+### 🧪 Run Test
 
-Once the application is running:
+Want to see the scanner in action?
 
-```text
-┌──────────────────────────────────────┐
-│        WEB-PEN SCANNER               │
-│                                      │
-│  Target URL                          │
-│  ┌────────────────────────────────┐  │
-│  │ https://authorized-target.com │  │
-│  └────────────────────────────────┘  │
-│                                      │
-│          [ START SCAN → ]            │
-└──────────────────────────────────────┘
-```
+📄 **[View the complete Run Test & Validation Report →](./docs/runtest%2016-09-2026.pdf)**
+
+The report demonstrates the complete workflow — from launching the scanner and verifying the API to scanning an authorized vulnerable target and reviewing the generated results.
 
 The scanner then performs:
 
